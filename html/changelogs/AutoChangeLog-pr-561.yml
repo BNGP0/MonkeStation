@@ -1,0 +1,4 @@
+author: DoctorSquishy
+delete-after: true
+changes:
+  - bugfix: fixed clockwork catwalks and lattice icons
