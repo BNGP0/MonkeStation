@@ -1,5 +1,0 @@
-author: Xkeeper0
-delete-after: true
-changes:
-  - bugfix: brightness limit raised for ooc/asay colors
-  - bugfix: screentip colors no longer brightness constrained
