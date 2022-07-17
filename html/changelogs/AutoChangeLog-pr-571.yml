@@ -1,0 +1,4 @@
+author: etherware-novice
+delete-after: true
+changes:
+  - soundadd: fixed dukem shuttle_recalled
