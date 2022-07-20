@@ -1,0 +1,4 @@
+author: DoctorSquishy
+delete-after: true
+changes:
+  - bugfix: You can deconstruct and upgrade sleepers from mapload again
