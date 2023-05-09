@@ -229,3 +229,34 @@
 	. = ..()
 	if(can_be_seen(loc))
 		return 1
+
+
+
+/mob/living/simple_animal/hostile/statue/eyes
+	name = "statue"
+	desc = "A statue made from cheap concrete or sandstone and covered in scrap copper plates. No idea what the eyes are made from though."
+	icon = 'icons/obj/statue.dmi'
+	icon_state = "eyes"
+	icon_living = "eyes"
+	icon_dead = "eyes"
+
+	vision_range = 20
+
+/mob/living/simple_animal/hostile/statue/eyes/AttackingTarget()
+	. = ..()
+	if(can_be_seen(get_turf(loc)))
+		if(client)
+			to_chat(src, span_warning("You cannot attack, there are eyes on you!"))
+		return FALSE
+	else if(iscarbon(target))
+		var/mob/living/carbon/C = target
+		C.adjustBruteLoss(20)
+		C.Paralyze(6 SECONDS, TRUE, TRUE)
+		C.spin(32,6)
+		C.adjustStaminaLoss(40)
+		C.adjustOxyLoss(20)
+		var/turf/safe_turf = find_safe_turf(zlevels = C.z, extended_safety_checks = TRUE)
+		do_teleport(C,safe_turf,forceMove = TRUE)
+		return ..()
+
+
