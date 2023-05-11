@@ -24,7 +24,7 @@
 	block_flags = BLOCKING_ACTIVE | BLOCKING_NASTY
 	item_flags = DROPDEL
 	damtype = BURN
-	force = 3
+	force = 5
 
 
 /obj/item/melee/touch_attack/glass_rift/attack_self(mob/user)

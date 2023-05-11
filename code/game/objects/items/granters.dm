@@ -314,8 +314,9 @@
 	spell = /obj/effect/proc_holder/spell/targeted/touch/glass_rift
 	spellname = "Glass rift"
 	icon_state ="booksacredflame"
-	desc = "Learn to walk through mirrors and regret it"
-	remarks = list("The mirror is the only entrance and the only exit...", "Do not sleep behind the mirror...", "Do not look at the windows...", "Do not let anyone near you look at the windows...", "Do not stay in the dark...", "If you see something that looks like you - kill it...", "If you see someone who doesn't look like you, run...")
+	desc = "Learn the spell of glass rift"
+	pages_to_mastery = 2
+	remarks = list("Do not sleep behind the mirror...", "Do not look at the windows...", "Do not stay in the dark...")
 
 
 

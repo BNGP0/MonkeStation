@@ -239,7 +239,7 @@
 	icon_state = "eyes"
 	icon_living = "eyes"
 	icon_dead = "eyes"
-
+	melee_damage = 10
 	vision_range = 20
 
 /mob/living/simple_animal/hostile/statue/eyes/AttackingTarget()
@@ -250,13 +250,13 @@
 		return FALSE
 	else if(iscarbon(target))
 		var/mob/living/carbon/C = target
-		C.adjustBruteLoss(20)
+//		C.adjustBruteLoss(20)
 		C.Paralyze(6 SECONDS, TRUE, TRUE)
-		C.spin(32,6)
+		C.spin(55,6)
 		C.adjustStaminaLoss(40)
-		C.adjustOxyLoss(20)
+		C.adjustOxyLoss(40)
 		var/turf/safe_turf = find_safe_turf(zlevels = C.z, extended_safety_checks = TRUE)
-		do_teleport(C,safe_turf,forceMove = TRUE)
+		do_teleport(C,safe_turf,forceMove = TRUE, channel = TELEPORT_CHANNEL_MAGIC)
 		return ..()
 
 
