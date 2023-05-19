@@ -176,3 +176,24 @@
 				add_overlay("[icon_state]_fail_1")
 			if(151 to INFINITY)
 				add_overlay("[icon_state]_fail_2")
+
+
+/obj/item/gun/energy/laser/scatter/makeshift
+	name = "makeshift laser shotgun"
+	icon = 'icons/obj/guns/energy.dmi'
+	icon_state = "makeshift_lshotgun"
+	item_state = "shotgun"
+	desc = "Looks impressive until you see how much damage it deals. Can only be useful against a swarm of bees or a legion with ADHD who made a wall of skulls near your ship's only exit."
+	shaded_charge = 0
+	pin = /obj/item/firing_pin
+	ammo_type = list(/obj/item/ammo_casing/energy/laser/scatter/makeshift, /obj/item/ammo_casing/energy/laser/scatter/makeshift/circle)
+
+
+/obj/item/gun/energy/laser/scatter/makeshift/solar
+	name = "makeshift self-recharging laser shotgun"
+	icon = 'icons/obj/guns/energy.dmi'
+	icon_state = "makeshift_lshotgun_solar"
+	item_state = "shotgun"
+	selfcharge = 1
+	desc = "Dude yro'ue a genious"
+

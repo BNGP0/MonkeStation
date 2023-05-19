@@ -415,6 +415,33 @@
 	category = CAT_WEAPONRY
 	subcategory = CAT_WEAPON
 
+//// makeshift lazer shotgun
+/datum/crafting_recipe/ilshotgun
+	name = "Makeshift Laser Shotgun"
+	result = /obj/item/gun/energy/laser/scatter/makeshift
+	reqs = list(/obj/item/weaponcrafting/receiver = 1,
+				/obj/item/stock_parts/capacitor = 3,
+				/obj/item/stock_parts/micro_laser = 5,
+				/obj/item/stack/sheet/iron = 7,
+				/obj/item/stack/sheet/glass = 12,
+				/obj/item/stack/packageWrap = 5)
+	tools = list(TOOL_SCREWDRIVER)
+	time = 50
+	category = CAT_WEAPONRY
+	subcategory = CAT_WEAPON
+
+/datum/crafting_recipe/ilshotgun_solar
+	name = "Makeshift Self-Recharging Laser Shotgun"
+	result = /obj/item/gun/energy/laser/scatter/makeshift/solar
+	reqs = list(/obj/item/gun/energy/laser/scatter/makeshift = 1,
+				/obj/item/stack/cable_coil = 5,
+				/obj/item/solar_assembly = 1)
+	tools = list(TOOL_SCREWDRIVER, TOOL_WRENCH)
+	time = 50
+	category = CAT_WEAPONRY
+	subcategory = CAT_WEAPON
+//////
+
 /datum/crafting_recipe/chainsaw
 	name = "Chainsaw"
 	result = /obj/item/chainsaw
@@ -436,6 +463,17 @@
 	time = 40
 	category = CAT_WEAPONRY
 	subcategory = CAT_WEAPON
+
+// glass rift book
+/datum/crafting_recipe/glassrift_book
+	name = "Glass rift"
+	result = /obj/item/book/granter/spell/glass_rift
+	reqs = list(/obj/item/stack/sheet/glass = 20,
+				/obj/item/shard = 3)
+	time = 40
+	category = CAT_WEAPONRY
+	subcategory = CAT_WEAPON
+// -----
 
 /datum/crafting_recipe/switchblade_kitchen
 	name = "Iron Switchblade"

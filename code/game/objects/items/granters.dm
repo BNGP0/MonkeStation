@@ -313,11 +313,13 @@
 /obj/item/book/granter/spell/glass_rift
 	spell = /obj/effect/proc_holder/spell/targeted/touch/glass_rift
 	spellname = "Glass rift"
-	icon_state ="booksacredflame"
-	desc = "Learn the spell of glass rift"
+	icon_state ="bookglassrift"
+	desc = "An unfinished ritual, to get an unfinished spell. at the other hand, what else did you expect for just a bunch of glass? at least the book is prety sharp"
 	pages_to_mastery = 2
 	remarks = list("Do not sleep behind the mirror...", "Do not look at the windows...", "Do not stay in the dark...")
-
+	attack_verb = list("bashed", "whacked", "slashed")
+	sharpness = IS_SHARP
+	force = 10
 
 
 ///MARTIAL ARTS///

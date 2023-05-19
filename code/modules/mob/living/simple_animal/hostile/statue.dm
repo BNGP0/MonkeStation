@@ -231,7 +231,7 @@
 		return 1
 
 
-
+//////////////////////////////////// Eyes statue
 /mob/living/simple_animal/hostile/statue/eyes
 	name = "statue"
 	desc = "A statue made from cheap concrete or sandstone and covered in scrap copper plates. No idea what the eyes are made from though."
@@ -241,22 +241,28 @@
 	icon_dead = "eyes"
 	melee_damage = 10
 	vision_range = 20
+	maxHealth = 50
+	health = 50
+	maxbodytemp = 1200 // so they can be killed with localised plasmafires, but incendiary weapons are not effective
 
 /mob/living/simple_animal/hostile/statue/eyes/AttackingTarget()
 	. = ..()
+
+	if(target == /turf/closed/wall)
+		return FALSE
 	if(can_be_seen(get_turf(loc)))
 		if(client)
 			to_chat(src, span_warning("You cannot attack, there are eyes on you!"))
 		return FALSE
 	else if(iscarbon(target))
 		var/mob/living/carbon/C = target
-//		C.adjustBruteLoss(20)
-		C.Paralyze(6 SECONDS, TRUE, TRUE)
-		C.spin(55,6)
+		C.Paralyze(2 SECONDS, TRUE, TRUE)
+		C.spin(50,1)
 		C.adjustStaminaLoss(40)
-		C.adjustOxyLoss(40)
-		var/turf/safe_turf = find_safe_turf(zlevels = C.z, extended_safety_checks = TRUE)
-		do_teleport(C,safe_turf,forceMove = TRUE, channel = TELEPORT_CHANNEL_MAGIC)
+		C.adjustOxyLoss(30)
+		C.blind_eyes(1)
+		var/turf/safe_turf = find_safe_turf(zlevels = src.z, extended_safety_checks = TRUE)
+		do_teleport(target,safe_turf,channel = TELEPORT_CHANNEL_MAGIC)
 		return ..()
 
 

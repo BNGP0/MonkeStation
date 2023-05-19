@@ -21,6 +21,33 @@
 	hostile_types = list(/mob/living/simple_animal/hostile/construct/armored/hostile = 8,\
 						/mob/living/simple_animal/hostile/construct/wraith/hostile = 6)
 
+
+// horrorstation portal storms in case there are no admins to spawn the mobs
+/datum/round_event_control/portal_storm_eye_statues
+	name = "Portal Storm: Eye statues"
+	typepath = /datum/round_event/portal_storm/eye_statues
+	weight = 20
+	min_players = 0
+	earliest_start = 2 MINUTES
+	max_occurrences = 2
+
+/datum/round_event/portal_storm/eye_statues
+	hostile_types = list(/mob/living/simple_animal/hostile/statue/eyes = 4)
+
+
+/datum/round_event_control/portal_storm_hermits
+	name = "Portal Storm: Locker Hermits"
+	typepath = /datum/round_event/portal_storm/hermits
+	weight = 15
+	min_players = 0
+	earliest_start = 2 MINUTES
+	max_occurrences = 3
+
+/datum/round_event/portal_storm/hermits
+	hostile_types = list(/mob/living/simple_animal/hostile/horrormob/hermit = 12)
+// horrorstation end
+
+
 /datum/round_event/portal_storm
 	startWhen = 7
 	endWhen = 999

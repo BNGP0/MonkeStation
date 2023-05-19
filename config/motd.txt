@@ -1,7 +1,7 @@
 <!-- Most valid html will work in here, excluding images. -->
 
-<h1>Welcome to Monkestation!</h1>
+<h1>Welcome to Monkestation (Horror edition)!</h1>
 
-<br><b>Website: 	<a href="http://monkestation.com">Click Me!</a></b>
-<br><b>Discord: 	<a href="https://discord.gg/monkestation">Click Me!</a></b>
-<br>
+<br><b>Original server's website: 	<a href="http://monkestation.com">Click Me!</a></b> 
+
+<br><b> use of yogstation's ss13 3D client is recomended

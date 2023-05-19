@@ -193,3 +193,11 @@
 		var/mob/living/carbon/M = target
 		M.visible_message("<span class='danger'>[M] explodes into a shower of gibs!</span>")
 		M.gib()
+
+
+// makeshift lazguns
+/obj/item/projectile/beam/emitter/weak
+	name = "makeshift lazergun beam"
+	damage = 2
+
+
