@@ -116,7 +116,7 @@
   * I am far too lazy to make it a proper list of areas so I'll just make it run the usual telepot routine at the start of the game
   */
 GLOBAL_LIST_EMPTY(teleportlocs)
-
+GLOBAL_LIST_EMPTY(publicteleportlocs)
 /**
   * Generate a list of turfs you can teleport to from the areas list
   *
@@ -140,6 +140,24 @@ GLOBAL_LIST_EMPTY(teleportlocs)
 			GLOB.teleportlocs[AR.name] = AR
 
 	sortTim(GLOB.teleportlocs, /proc/cmp_text_asc)
+
+
+// for teleporting only into publically accessible areas
+/proc/process_public_teleport_locs()
+	for(var/V in GLOB.sortedAreas)
+		var/area/AR = V
+		if(!istype(AR, /area/hallway) || AR.teleport_restriction)
+			continue
+		if(GLOB.publicteleportlocs[AR.name])
+			continue
+		if (!AR.contents.len)
+			continue
+		var/turf/picked = AR.contents[1]
+		if (picked && is_station_level(picked.z))
+			GLOB.publicteleportlocs[AR.name] = AR
+
+	sortTim(GLOB.publicteleportlocs, /proc/cmp_text_asc)
+
 
 /**
   * Called when an area loads

@@ -1,55 +1,30 @@
-/datum/round_event_control/portal_storm_syndicate
-	name = "Portal Storm: Syndicate Shocktroops"
-	typepath = /datum/round_event/portal_storm/syndicate_shocktroop
-	weight = 2
-	min_players = 15
-	earliest_start = 30 MINUTES
-
-/datum/round_event/portal_storm/syndicate_shocktroop
-	boss_types = list(/mob/living/simple_animal/hostile/syndicate/melee/space/stormtrooper = 2)
-	hostile_types = list(/mob/living/simple_animal/hostile/syndicate/melee/space = 8,\
-						/mob/living/simple_animal/hostile/syndicate/ranged/space = 2)
-
-/datum/round_event_control/portal_storm_narsie
-	name = "Portal Storm: Constructs"
-	typepath = /datum/round_event/portal_storm/portal_storm_narsie
-	weight = 0
-	max_occurrences = 0
-
-/datum/round_event/portal_storm/portal_storm_narsie
-	boss_types = list(/mob/living/simple_animal/hostile/construct/builder = 6)
-	hostile_types = list(/mob/living/simple_animal/hostile/construct/armored/hostile = 8,\
-						/mob/living/simple_animal/hostile/construct/wraith/hostile = 6)
-
-
-// horrorstation portal storms in case there are no admins to spawn the mobs
-/*
-/datum/round_event_control/portal_storm_eye_statues
+// basically a portal storm, but has no announcement and spawns mobs in public areas only
+/datum/round_event_control/hm_spawn_eye_statues
 	name = "Portal Storm: Eye statues"
-	typepath = /datum/round_event/portal_storm/eye_statues
+	typepath = /datum/round_event/hm_spawn/eye_statues
 	weight = 20
 	min_players = 0
 	earliest_start = 2 MINUTES
 	max_occurrences = 2
 
-/datum/round_event/portal_storm/eye_statues
+/datum/round_event/hm_spawn/eye_statues
 	hostile_types = list(/mob/living/simple_animal/hostile/statue/eyes = 4)
 
 
-/datum/round_event_control/portal_storm_hermits
+/datum/round_event_control/hm_spawn_hermits
 	name = "Portal Storm: Locker Hermits"
-	typepath = /datum/round_event/portal_storm/hermits
+	typepath = /datum/round_event/hm_spawn/hermits
 	weight = 15
 	min_players = 0
 	earliest_start = 2 MINUTES
 	max_occurrences = 3
 
-/datum/round_event/portal_storm/hermits
+/datum/round_event/hm_spawn/hermits
 	hostile_types = list(/mob/living/simple_animal/hostile/horrormob/hermit = 12)
 // horrorstation end
-*/ // moved into horrormob_spawn
 
-/datum/round_event/portal_storm
+
+/datum/round_event/hm_spawn
 	startWhen = 7
 	endWhen = 999
 	announceWhen = 1
@@ -63,7 +38,7 @@
 	var/number_of_hostiles
 	var/mutable_appearance/storm
 
-/datum/round_event/portal_storm/setup()
+/datum/round_event/hm_spawn/setup()
 	storm = mutable_appearance('icons/obj/tesla_engine/energy_ball.dmi', "energy_ball_fast", FLY_LAYER)
 	storm.color = "#00FF00"
 
@@ -82,7 +57,7 @@
 		hostiles_spawn += get_random_station_turf()
 
 	next_boss_spawn = startWhen + CEILING(2 * number_of_hostiles / number_of_bosses, 1)
-
+/*
 /datum/round_event/portal_storm/announce(fake)
 	set waitfor = 0
 	sound_to_playing_players('sound/magic/lightning_chargeup.ogg')
@@ -90,8 +65,8 @@
 	priority_announce("Massive bluespace anomaly detected en route to [station_name()]. Brace for impact.", sound = SSstation.announcer.get_rand_alert_sound())
 	sleep(20)
 	sound_to_playing_players('sound/magic/lightningbolt.ogg')
-
-/datum/round_event/portal_storm/tick()
+*/
+/datum/round_event/hm_spawn/tick()
 	spawn_effects(get_random_station_turf())
 
 	if(spawn_hostile())
@@ -109,30 +84,45 @@
 			boss_types -= type
 
 	time_to_end()
-
-/datum/round_event/portal_storm/proc/spawn_mob(type, spawn_list)
+///////////////////////////////////////////// mob spawn
+/datum/round_event/hm_spawn/proc/spawn_mob(type, spawn_list)
 	if(!type)
 		return
-	var/turf/T = pick_n_take(spawn_list)
+//	var/turf/T = pick_n_take(spawn_list)
+	var area/thearea = pickweight(GLOB.publicteleportlocs)
+
+	for(var/turf/T in get_area_turfs(thearea.type))
+		if(!T.density)
+			var/clear = TRUE
+			for(var/obj/O in T)
+				if(O.density)
+					clear = FALSE
+					break
+			if(clear)
+				L+=T
+
+		if(!L.len)
+			return
+// // //
 	if(!T)
 		return
 	new type(T)
 	spawn_effects(T)
 
-/datum/round_event/portal_storm/proc/spawn_effects(turf/T)
+/datum/round_event/hm_spawn/proc/spawn_effects(turf/T)
 	if(!T)
-		log_game("Portal Storm failed to spawn effect due to an invalid location.")
+		log_game("Horrormob spawn event failed to spawn effect due to an invalid location.")
 		return
 	T = get_step(T, SOUTHWEST) //align center of image with turf
 	flick_overlay_static(storm, T, 15)
 	playsound(T, 'sound/magic/lightningbolt.ogg', rand(80, 100), 1)
 
-/datum/round_event/portal_storm/proc/spawn_hostile()
+/datum/round_event/hm_spawn/proc/spawn_hostile()
 	if(!hostile_types || !hostile_types.len)
 		return 0
 	return ISMULTIPLE(activeFor, 2)
 
-/datum/round_event/portal_storm/proc/spawn_boss()
+/datum/round_event/hm_spawn/proc/spawn_boss()
 	if(!boss_types || !boss_types.len)
 		return 0
 
@@ -140,7 +130,7 @@
 		next_boss_spawn += CEILING(number_of_hostiles / number_of_bosses, 1)
 		return 1
 
-/datum/round_event/portal_storm/proc/time_to_end()
+/datum/round_event/hm_spawn/proc/time_to_end()
 	if(!hostile_types.len && !boss_types.len)
 		endWhen = activeFor
 
