@@ -98,7 +98,7 @@
 /mob/living/simple_animal/hostile/horrormob/hermit/AttackingTarget()
 	if(target == /obj/structure/closet)
 		var/obj/structure/closet/Cl = target
-		Cl.dive_into(user = src)
+		Cl.dive_into(src)
 		return
 	else
 		return ..()
@@ -106,5 +106,105 @@
 /mob/living/simple_animal/hostile/horrormob/hermit/EscapeConfinement()
 	return //so it doesn't just destroy lockers from the inside
 
+
+
+
+
+
+/*
+
+// canceled or unfinished horrormobs
+
+/mob/living/simple_animal/hostile/horrormob/photo
+	name = ""
+	desc = ""
+	health = 20
+	maxHealth = 20
+	icon_state = ""
+	icon_living = ""
+	icon_dead = "" // totaly invisible
+	del_on_death = TRUE
+	retreat_distance = 4
+	minimum_distance = 6
+	pass_flags = PASSTABLE | PASSGRILLE | PASSGLASS | PASSMOB | PASSMACHINE | PASSSTRUCTURE | PASSDOORS // only can't pass walls
+
+/mob/living/simple_animal/hostile/horrormob/photo/Aggro()
+	captureimage(target, src, 4, 4)
+	do_teleport(src,find_safe_turf(zlevels = src.z, extended_safety_checks = FALSE),channel = TELEPORT_CHANNEL_MAGIC)
+	return ..()
+
+
+// mostly copypasted and shortened code from photography/camera.dm without unnecessary checks for the mob. this probably needs to be optimised
+/mob/living/simple_animal/hostile/horrormob/photo/proc/captureimage(atom/target, mob/user, flag, size_x = 4, size_y = 4)
+	blending = TRUE
+	var/turf/target_turf = get_turf(target)
+	if(!isturf(target_turf))
+		blending = FALSE
+		return FALSE
+	var/list/desc = list("This is a photo of an area of [size_x+1] meters by [size_y+1] meters.")
+	var/list/mobs_spotted = list()
+	var/list/dead_spotted = list()
+	var/list/seen
+	var/list/viewlist = (user && user.client)? getviewsize(user.client.view) : getviewsize(world.view)
+	var/viewr = max(viewlist[1], viewlist[2]) + max(size_x, size_y)
+	var/viewc = user.client? user.client.eye : target
+	seen = get_hear(viewr, get_turf(viewc))
+	var/list/turfs = list()
+	var/list/mobs = list()
+	var/blueprints = FALSE
+	var/clone_area = SSmapping.RequestBlockReservation(size_x * 2 + 1, size_y * 2 + 1)
+	for(var/turf/placeholder in block(locate(target_turf.x - size_x, target_turf.y - size_y, target_turf.z), locate(target_turf.x + size_x, target_turf.y + size_y, target_turf.z)))
+		var/turf/T = placeholder
+		while(istype(T, /turf/open/openspace)) //Multi-z photography
+			T = SSmapping.get_turf_below(T)
+			if(!T)
+				break
+	for(var/i in mobs)
+		var/mob/M = i
+		mobs_spotted += M
+		if(M.stat == DEAD)
+			dead_spotted += M
+		desc += M.get_photo_description(src)
+	var/psize_x = (size_x * 2 + 1) * world.icon_size
+	var/psize_y = (size_y * 2 + 1) * world.icon_size
+	var/get_icon = camera_get_icon(turfs, target_turf, psize_x, psize_y, clone_area, size_x, size_y, (size_x * 2 + 1), (size_y * 2 + 1))
+	qdel(clone_area)
+	var/icon/temp = icon('icons/effects/96x96.dmi',"")
+	temp.Blend("#000", ICON_OVERLAY)
+	temp.Scale(psize_x, psize_y)
+	temp.Blend(get_icon, ICON_OVERLAY)
+	var/datum/picture/P = new("picture", desc.Join(" "), mobs_spotted, dead_spotted, temp, null, psize_x, psize_y, blueprints)
+	printpicture(user, P)
+	blending = FALSE
+
+
+/mob/living/simple_animal/hostile/horrormob/photo/proc/printpicture(mob/user, datum/picture/picture) //Normal camera proc for creating photos
+	var/obj/item/photo/p = new(get_turf(src), picture)
+	if(in_range(src, user)) //needed because of TK
+		user.put_in_hands(p)
+		pictures_left--
+		to_chat(user, "<span class='notice'>[pictures_left] photos left.</span>")
+		var/customise = "No"
+		if(can_customise)
+			customise = alert(user, "Do you want to customize the photo?", "Customization", "Yes", "No")
+		if(customise == "Yes")
+			var/name1 = stripped_input(user, "Set a name for this photo, or leave blank. 32 characters max.", "Name", max_length = 32)
+			var/desc1 = stripped_input(user, "Set a description to add to photo, or leave blank. 128 characters max.", "Caption", max_length = 128)
+			var/caption = stripped_input(user, "Set a caption for this photo, or leave blank. 256 characters max.", "Caption", max_length = 256)
+			if(name1)
+				picture.picture_name = name1
+			if(desc1)
+				picture.picture_desc = "[desc1] - [picture.picture_desc]"
+			if(caption)
+				picture.caption = caption
+		else
+			if(default_picture_name)
+				picture.picture_name = default_picture_name
+
+		p.set_picture(picture, TRUE, TRUE)
+		if(CONFIG_GET(flag/picture_logging_camera))
+			picture.log_to_file()
+
+*/
 
 
